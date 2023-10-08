@@ -1,0 +1,30 @@
+import java.util.function.Function;
+
+public class HillClimbing {
+
+    public static double hillClimbing(Function<Double, Double> function, double start, double stepSize, int maxIterations) {
+        double currentX = start;
+
+        for (int i = 0; i < maxIterations; i++) {
+            double currentY = function.apply(currentX);
+            double nextX = currentX + stepSize;
+            double nextY = function.apply(nextX);
+
+            if (nextY > currentY) {
+                currentX = nextX;
+            } else {
+                stepSize = -stepSize;  // Change direction if going downhill
+            }
+        }
+
+        return currentX;
+    }
+
+    public static void main(String[] args) {
+        // Example usage with a simple quadratic function
+        Function<Double, Double> quadraticFunction = x -> -(x - 2) * (x - 2) + 5;  // Negated for hill climbing
+        double result = hillClimbing(quadraticFunction, 0.0, 0.1, 100);
+
+        System.out.println("Maximum found at x = " + result + ", y = " + quadraticFunction.apply(result));
+    }
+}
